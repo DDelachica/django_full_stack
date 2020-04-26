@@ -6,6 +6,13 @@
     <title>Log and Reg</title>
 </head>
 <body>
+    {% if messages %}
+    <div id='errors'>
+        {% for message in messages %}
+            <p>- {{message}} -</p>
+        {% endfor %}
+    </div>
+    {% endif %}
     <h1>Register:</h1>
     
     <form action="/register" method=POST>
