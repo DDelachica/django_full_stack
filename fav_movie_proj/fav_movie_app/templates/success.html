@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success!</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+    <div>
+        <a href="/logout">Logout</a>
+        <h1>Welcome {{request.session.user}}!</h1>
+
+        <div>
+            <h2>Add a favorite Book:</h2>
+            <form action="/add_book" method=POST>
+                {% csrf_token %}
+                Title: <input type="text" name='title'>
+                Description: <input type="text" name='desc'>
+                <input type="submit" value="Add">
+            </form>
+        </div>
+
+        <div>
+            <h2>All Books</h2>
+            {% for book in book_list.all %}
+            <div>
+                {% if request.session.id is book.uploaded_by.id %}
+
+                {% endif %}
+                <h2>{{book.title}}</h2>
+                <p>(Added By: {{book.uploaded_by.first_name}} {{book.uploaded_by.last_name}}</a>)</p>
+                <a href="/add/{{book.id}}">Add to Favorites</a>
+                <a href="/delete/{{book.id}}">Delete</a>
+                <a href="/edit/{{book.id}}">Edit</a>
+            </div> 
+            {% endfor %}
+        </div>
+
+    </div>
+</body>
+
+</html>

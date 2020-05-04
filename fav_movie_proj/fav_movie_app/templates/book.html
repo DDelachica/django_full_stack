@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorite Books</title>
+</head>
+<body>
+    <h1>Welcome, {{user.first_name}}!</h1>
+    {% if user.id == request.session.id %}
+    <div>
+        <form action="/edit/{{books.id}}" method=POST>
+        {% csrf_token %}
+            <input type="text" name='title' value={{books.title}}>
+            Added by: {{books.uploaded_by.first_name}}{{books.uploaded_by.last_name}}
+            Added on: {{books.created_at}}
+            Last updated on: {{books.updated_at}}
+            Description: <input type="text" name='desc' value={{books.desc}}>
+            <input type="submit" value="Update">
+            <a href="/delete/{{books.id}}"></a>
+        </form>
+        <h2>Users who like this book:</h2>
+        {% for liker in books.users_who_like %}
+        <p>- {{liker.first_name}}{{liker.last_name}}</p>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div>
+        <h3>{{books.title}}</h3>
+        <p>Added by: {{books.uploaded_by.first_name}}{{books.uploaded_by.last_name}}</p> 
+        <p>Added on: {{books.created_at}}</p>
+        <p>Last updated on: {{books.updated_at}}</p>
+        <p>Description:{{books.desc}}</p>
+        <h2>Users who like this book:</h2>
+        {% for liker in books.users_who_like %}
+        <p>- {{liker.first_name}}{{liker.last_name}}</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
